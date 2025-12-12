@@ -11,3 +11,10 @@ def get_next_purchase(customer_id: str):
   features = svc.extract_features(customer_id)
   pred = svc.predict_next_purchase(features)
   return NextPurchaseResponse(**pred)
+
+@router.post("/intent")
+def predict_intent(payload: dict):
+    from app.services.conversation_service import ConversationService
+    svc = ConversationService()
+    intent = svc.detect_intent(payload["text"])
+    return {"intent": intent}
